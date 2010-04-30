@@ -1,0 +1,7 @@
+#------------------------------------------- vk_exaile v0.0.1 -------------------------------------------------------
+
+- Search by recordings from the vkontakte.ru
+- Remove duplicates
+- Operation of the plugin without registering on the site
+- Multiple adding records to playlist
+- Save selected records to a local disk in a format artist - track.mp3 (in your home directory)
