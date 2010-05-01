@@ -17,6 +17,7 @@ class MyPanel():
 		s = s.replace("&apos", "'")
 		s = s.replace("&quot;", "\"")
 		s = s.replace("&amp;", "&")
+		
 		return s
 	
 	def gui_create(self, exaile):
@@ -112,7 +113,7 @@ class MyPanel():
 
 	def start_search(self, exaile):		
 		self.list.clear()
-		queryString = self.entry.get_text().strip()
+		queryString = self.entry.get_text().strip().replace(" ", "_")
 		md5hash =  hashlib.md5('2168735api_id=1848079count=200method=audio.searchq='+queryString+'test_mode=1oI0L6UgIyG').hexdigest()
 		url =  'http://api.vkontakte.ru/api.php?api_id=1848079&count=200&method=audio.search&sig='+md5hash+'&test_mode=1&q='+queryString
 		
