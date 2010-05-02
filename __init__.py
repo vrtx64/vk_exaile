@@ -16,3 +16,4 @@ def disable(exaile):
 def _enable(eventname, exaile, nothing):
 	global panel
 	panel = MyPanel(exaile)
+	panel.chk.set_active(False)

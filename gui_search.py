@@ -10,6 +10,8 @@ class MyPanel():
 		self.gui_create(exaile)
 		self.events_connect()
 		self.play = exaile.gui.main
+		self.chk.set_active(True)
+		
 		
 	def unescape(self, s):
 		s = s.replace("&lt;", "<")
@@ -38,6 +40,13 @@ class MyPanel():
 		self.but = gtk.Button()
 		self.but.set_image(self.searchImage)
 		self.hbox.pack_start(self.but, False, True, 5)
+		
+		self.hbox2 = gtk.HBox()
+		self.vbox.pack_start(self.hbox2, False, True, 0)
+		self.chk = gtk.CheckButton("Поиск по ID: ")
+		self.hbox2.pack_start(self.chk, False, True, 5)
+		self.entryID = gtk.Entry()
+		self.hbox2.pack_start(self.entryID, True, True, 0)
 		
 		self.scroll = gtk.ScrolledWindow()
 		self.scroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
@@ -110,12 +119,31 @@ class MyPanel():
 			return 1
 		elif event.type == gtk.gdk._2BUTTON_PRESS:
 			self.add_to_playlist(self)
-
+			
+	def vis(self, widget):
+		if self.chk.get_active():
+			#self.entry.set_properties(editable=False, has-frame=False) BUG?
+			self.entry.set_property("editable", False)
+			self.entry.set_property("has-frame", False)
+			self.entryID.set_property("editable", True)
+			self.entryID.set_property("has-frame", True)
+		else:
+			self.entry.set_property("editable", True)
+			self.entry.set_property("has-frame", True)
+			self.entryID.set_property("editable", False)
+			self.entryID.set_property("has-frame", False)
+	
 	def start_search(self, exaile):		
 		self.list.clear()
-		queryString = self.entry.get_text().strip().replace(" ", "_")
-		md5hash =  hashlib.md5('2168735api_id=1848079count=200method=audio.searchq='+queryString+'test_mode=1oI0L6UgIyG').hexdigest()
-		url =  'http://api.vkontakte.ru/api.php?api_id=1848079&count=200&method=audio.search&sig='+md5hash+'&test_mode=1&q='+queryString
+		
+		if self.chk.get_active():
+			queryString = self.entryID.get_text().strip()
+			md5hash =  hashlib.md5('2168735api_id=1848079method=audio.gettest_mode=1uid='+queryString+'v=2.0oI0L6UgIyG').hexdigest()
+			url =  'http://api.vkontakte.ru/api.php?api_id=1848079&method=audio.get&uid='+queryString+'&test_mode=1&v=2.0&sig='+md5hash
+		else:
+			queryString = self.entry.get_text().strip().replace(" ", "_")
+			md5hash =  hashlib.md5('2168735api_id=1848079count=200method=audio.searchq='+queryString+'test_mode=1oI0L6UgIyG').hexdigest()
+			url =  'http://api.vkontakte.ru/api.php?api_id=1848079&count=200&method=audio.search&sig='+md5hash+'&test_mode=1&q='+queryString
 		
 		try:
 			XMLfile = urllib.urlopen(url).read()
@@ -147,3 +175,4 @@ class MyPanel():
 		self.tw.connect("select-cursor-row", self.add_to_playlist)
 		self.to_playlist.connect("activate", self.add_to_playlist)
 		self.download.connect("activate", self.add_to_playlist, None, True)
+		self.chk.connect("toggled", self.vis)
