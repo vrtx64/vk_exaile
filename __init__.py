@@ -2,6 +2,10 @@
 
 from xl import event
 from gui_search import MyPanel
+import prefs
+
+def get_prefs_pane():
+    return prefs
 
 def enable(exaile):
 	if (exaile.loading):

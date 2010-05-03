@@ -4,7 +4,6 @@ import gtk, os, urllib, hashlib
 from xl import trax, common, settings, playlist
 from xml.etree import ElementTree
 
-
 class MyPanel():
 	def __init__(self, exaile):
 		self.gui_create(exaile)
@@ -12,14 +11,12 @@ class MyPanel():
 		self.play = exaile.gui.main
 		self.chk.set_active(True)
 		
-		
 	def unescape(self, s):
 		s = s.replace("&lt;", "<")
 		s = s.replace("&gt;", ">")
 		s = s.replace("&apos", "'")
 		s = s.replace("&quot;", "\"")
 		s = s.replace("&amp;", "&")
-		
 		return s
 	
 	def gui_create(self, exaile):
@@ -108,9 +105,14 @@ class MyPanel():
 			playlist_handle.add_tracks(myTrack, None)
 		else:
 			for i in mysel:
-				path = "~/"
-				res = os.system('wget -b -P %s -O "%s - %s.mp3" %s -o /dev/null' % (path, self.comp[i[0]]["artist"], self.comp[i[0]]["track"], self.comp[i[0]]["mp3"]))
-			
+				path = settings.get_option("vk_exaile/path", os.getenv("HOME"))
+				if path.strip() == "":
+					settings.set_option("vk_exaile/path", os.getenv("HOME"))
+					path = os.getenv("HOME")
+				elif not os.path.exists(path.strip()):
+					 os.system("mkdir '%s'" % path.strip())
+				
+				res = os.system('wget -b -O "%s/%s - %s.mp3" %s -o /dev/null' % (path, self.comp[i[0]]["artist"], self.comp[i[0]]["track"], self.comp[i[0]]["mp3"]))
 	
 	def menu_popup(self, tw, event):
 		if event.button == 3:

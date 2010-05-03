@@ -1,4 +1,4 @@
-Version='0.0.2'
+Version='0.0.3'
 Authors=['vrtx64 <vrtx64@gmail.com>']
 Name='vk_exaile'
 Description='Playing music from vkontakte.ru in Exaile.'

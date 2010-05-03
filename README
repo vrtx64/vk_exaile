@@ -1,3 +1,8 @@
+#------------------------------------------- vk_exaile v0.0.3 -------------------------------------------------------
+
++ Add preference "Path to downloads". By default path is home dir. If the directory does not 
+    exist, it creates
+
 #------------------------------------------- vk_exaile v0.0.2 -------------------------------------------------------
 
 + Add search playlist by user ID
