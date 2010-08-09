@@ -4,7 +4,7 @@ from xl import event
 from gui_search import MyPanel
 import prefs
 
-def get_prefs_pane():
+def get_preferences_pane():
     return prefs
 
 def enable(exaile):
